@@ -1,0 +1,24 @@
+{
+  "customManagers": [
+    {
+        "customType": "regex",
+        "fileMatch": [
+          "(^|/)Dockerfile\\.[^/]*$"
+        ],
+        "matchStrings": [
+          "OPENSKY_VERSION=(?<currentValue>.*?)\\n"
+        ],
+        "depNameTemplate": "opensky",
+        "datasourceTemplate": "custom.opensky"
+      }
+  ],
+  "customDatasources": {
+     "opensky": {
+        "defaultRegistryUrlTemplate": "https://opensky-network.org/repos/debian/dists/opensky/custom/binary-amd64/Packages",
+        "transformTemplates": [
+          "{ \"releases\": data.releases[version ~> /^Version: \\d+\\.\\d+\\.\\d+-\\d+$/].{\"version\": version ~> /\\d+\\.\\d+\\.\\d+-\\d+/} }"
+        ],
+        "format": "plain"
+      }
+  }
+}
